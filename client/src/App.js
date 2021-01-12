@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 
@@ -9,13 +9,14 @@ import postcards from "./images/postcards.png";
 
 import useStyles from "./styles";
 const App = () => {
+  const [currentID, setCurrentID] = useState(null);
   const classes = useStyles();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch]);
+  }, [currentID, dispatch]);
 
   return (
     <Container maxwidth="lg">
@@ -33,16 +34,17 @@ const App = () => {
       <Grow in>
         <Container>
           <Grid
+            className={classes.mainContainer}
             container
             justify="space-between"
             alignItems="stretch"
-            spacing="3"
+            spacing={3}
           >
             <Grid item xs={12} sm={7}>
-              <Posts />
+              <Posts setCurrentID={setCurrentID} />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <Form />
+              <Form currentID={currentID} setCurrentID={setCurrentID} />
             </Grid>
           </Grid>
         </Container>
